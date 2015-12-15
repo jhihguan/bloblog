@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Wane's IO]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://wane.io/"/>
+  <updated>2015-06-08T16:47:22.000Z</updated>
+  <id>http://wane.io/</id>
+  
+  <author>
+    <name><![CDATA[W4ne Wang]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[ios Flurry Native Ads]]></title>
+    <link href="http://wane.io/2015/06/09/ios-flurry-native-ads/"/>
+    <id>http://wane.io/2015/06/09/ios-flurry-native-ads/</id>
+    <published>2015-06-08T16:47:41.000Z</published>
+    <updated>2015-06-08T16:47:22.000Z</updated>
+    <content type="html"><![CDATA[<p>Have you ever try <a href="https://developer.yahoo.com/flurry/" target="_blank" rel="external">FlurryAds</a>? According to an <a href="http://www.statista.com/statistics/242547/digital-display-ad-revenues-of-major-ad-selling-companies-in-the-us/" target="_blank" rel="external">article</a>, it is top 3 ads-selling company, another <a href="http://www.chinainternetwatch.com/11500/china-top-ad-sellers-exceed-10-market-share-worldwide/" target="_blank" rel="external">article</a> said that it is top 10 ad-sselling company. Actually, it does not that important which place is it, we all know Flurry(Yahoo) is a good company. For me, well, Flurry is a really amazing analytic tool, but normal at providing great ads.</p>
+<p>Recently, I have to integrate <a href="https://developer.yahoo.com/flurry/docs/publisher/code/ios/" target="_blank" rel="external">FlurryAdNative</a> with one app. According to the example of the flurry document, I init and fetch FlurryAds inside function, wait for the response, and than my app crash without any informations. Here’s sample code for requesting FlurryAds with version 6.5.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)fetchFlurryAd &#123;</span><br><span class="line">    FlurryAdNative *flurryAd = [[FlurryAdNative alloc] initWithSpace:<span class="string">@"iOSNativeAd"</span>];</span><br><span class="line">    flurryAd<span class="variable">.adDelegate</span> = <span class="keyword">self</span>;</span><br><span class="line">    flurryAd<span class="variable">.viewControllerForPresentation</span> = <span class="keyword">self</span>;</span><br><span class="line">    <span class="comment">//Request the ad from Flurry.</span></span><br><span class="line">    [flurryAd fetchAd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>TL;DR<br>declare your FlurryAdNative as property and use it to fetch<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">FlurryTestViewController</span>()</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) FlurryAdNative* flurryAd;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">- (<span class="keyword">void</span>)fetchFlurryAd &#123;</span><br><span class="line">    _flurryAd = [[FlurryAdNative alloc] initWithSpace:<span class="string">@"iOSNativeAd"</span>];</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>First, I think maybe it is crashed because I did not implement the error handling method. So I add implementation (actually just copy and paste from sample code), and my app crash again.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>) adNative:(FlurryAdNative*)nativeAd</span><br><span class="line">          adError:(FlurryAdError)adError</span><br><span class="line"> errorDescription:(<span class="built_in">NSError</span>*) errorDescription</span><br><span class="line"> &#123;</span><br><span class="line">    <span class="comment">//FLURRY_AD_ERROR_DID_FAIL_TO_RENDER   = 0,</span></span><br><span class="line">    <span class="comment">//FLURRY_AD_ERROR_DID_FAIL_TO_FETCH_AD = 1,</span></span><br><span class="line">    <span class="comment">//FLURRY_AD_ERROR_CLICK_ACTION_FAILED  = 2,</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@" Native Ad for Space [%@] Received Error # [%d], with description: [%@]  ================ "</span>, nativeAd<span class="variable">.space</span>, adError, errorDescription );</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Then, I guess it might be sdk version issue. I use <a href="https://cocoapods.org/" target="_blank" rel="external">CocoaPods</a>, which I believe that every ios developer should give it a try indeed, to downgrade sdk version to 6.2. Well, the error still happen as I expect.<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pod <span class="string">'FlurrySDK/FlurrySDK'</span>, <span class="string">'6.2'</span></span><br><span class="line">pod <span class="string">'FlurrySDK/FlurryAds'</span>, <span class="string">'6.2'</span></span><br></pre></td></tr></table></figure></p>
+<p>Both methods did not work, so I try to find official example and run it. Here are two examples <a href="https://github.com/flurry/YodeliOSApp" target="_blank" rel="external">YodeliOSApp</a> and <a href="https://github.com/flurrydev/FlurryIntegrationSamples-iOSV6" target="_blank" rel="external">FlurryIntegrationSamples-iOSV6</a>, both contain FlurryAdNative fetch. I have tried the second example which worked fine with two native ads showup. I try to find out what’s the difference and I realize that it might be memory problem. The example applcation inseted ad to an array, so I move my flurryAd to ViewController level.  <code>Finally, it worked!</code></p>
+<p>This is really weird problem cause I did almost same thing for <a href="https://developers.facebook.com/docs/audience-network/ios/native-api" target="_blank" rel="external">FBNativeAd</a> with no error. Maybe flurry did not copy the native ad object before it do async load ads?</p>
+<p><code>PS1.</code> I like how facebook provide the native ad’s information. It is eerie that having to use a for loop to get value.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// for facebook native ad</span></span><br><span class="line">nativeAd<span class="variable">.title</span>;</span><br><span class="line">nativeAd<span class="variable">.body</span>;</span><br><span class="line">nativeAd<span class="variable">.icon</span><span class="variable">.url</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// for flurry native ad</span></span><br><span class="line"><span class="keyword">if</span> ([asset<span class="variable">.name</span> isEqualToString:<span class="string">@"headline"</span>]) &#123;</span><br><span class="line">    asset<span class="variable">.value</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ([asset<span class="variable">.name</span> isEqualToString:<span class="string">@"summary"</span>]) &#123;</span><br><span class="line">    asset<span class="variable">.value</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ([asset<span class="variable">.name</span> isEqualToString:<span class="string">@"secImage"</span>]) &#123;</span><br><span class="line">    asset<span class="variable">.value</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>PS2.</code> FlurryAds CocoaPods link is <a href="https://cocoapods.org/pods/FlurrySDK" target="_blank" rel="external">here</a>. Remeber to checkout the page to see how to integrate pods with your code. I take a while for searching how to download FlurryAds from CocoaPods, because I did not click into it, only search for keywords.</p>
+<p>If you have another great solution, please leave me a comment! Thanks!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Have you ever try <a href="https://developer.yahoo.com/flurry/">FlurryAds</a>? According to an <a href="http://www.statista.com/statistics/242547/digital-display-ad-revenues-of-major-ad-selling-companies-in-the-us/">article</a>, it is top 3 ads-selling company, another <a href="http://www.chinainternetwatch.com/11500/china-top-ad-sellers-exceed-10-market-share-worldwide/">article</a> said that it is top 10 ad-sselling company. Actually, it does not that important which place is it, we all know Flurry(Yahoo) is a good company. For me, well, Flurry is a really amazing analytic tool, but normal at providing great ads.</p>
+<p>Recently, I have to integrate <a href="https://developer.yahoo.com/flurry/docs/publisher/code/ios/">FlurryAdNative</a> with one app. According to the example of the flurry document, I init and fetch FlurryAds inside function, wait for the response, and than my app crash without any informations. Here’s sample code for requesting FlurryAds with version 6.5.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)fetchFlurryAd &#123;</span><br><span class="line">    FlurryAdNative *flurryAd = [[FlurryAdNative alloc] initWithSpace:<span class="string">@"iOSNativeAd"</span>];</span><br><span class="line">    flurryAd<span class="variable">.adDelegate</span> = <span class="keyword">self</span>;</span><br><span class="line">    flurryAd<span class="variable">.viewControllerForPresentation</span> = <span class="keyword">self</span>;</span><br><span class="line">    <span class="comment">//Request the ad from Flurry.</span></span><br><span class="line">    [flurryAd fetchAd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]>
+    
+    </summary>
+    
+      <category term="ads" scheme="http://wane.io/tags/ads/"/>
+    
+      <category term="dev" scheme="http://wane.io/tags/dev/"/>
+    
+      <category term="flurry" scheme="http://wane.io/tags/flurry/"/>
+    
+      <category term="ios" scheme="http://wane.io/tags/ios/"/>
+    
+      <category term="xcode" scheme="http://wane.io/tags/xcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[ios Url Scheme]]></title>
+    <link href="http://wane.io/2015/06/01/ios-url-scheme/"/>
+    <id>http://wane.io/2015/06/01/ios-url-scheme/</id>
+    <published>2015-06-01T04:27:39.000Z</published>
+    <updated>2015-06-08T16:28:48.000Z</updated>
+    <content type="html"><![CDATA[<p>This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found <a href="https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007899-CH1-SW1" target="_blank" rel="external">1.here</a> and <a href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html" target="_blank" rel="external">2.here</a>.</p>
+<p>This article will summarize some url shcemes and introduce how to deal with them.</p>
+<a id="more"></a>
+<p>First, let’s meet some basic url schemes.</p>
+<ol>
+<li>Apple’s Url Scheme<br> here’s some example from <code>documen 1</code><ol>
+<li><code>mailto:someone@example.com</code><ul>
+<li>send email to someone@example.com, you can also add ‘cc’, ‘subject’, and ‘body’, for example mailto:foo@example.com?cc=bar@example.com&amp;subject=Greetings%20from%20Cupertino!&amp;body=Wish%20you%20were%20here!</li>
+</ul>
+</li>
+<li><code>tel:1-408-555-5555</code>, <code>facetime://user@example.com</code><ul>
+<li>call number, or facetime someone</li>
+</ul>
+</li>
+<li><code>sms:1-408-555-1212</code><ul>
+<li>send message to number</li>
+</ul>
+</li>
+<li><code>http://maps.apple.com/?q=Union+Square</code><ul>
+<li>open apple maps with query terms, there have other keys can be used like <code>saddr</code>(source address), <code>daddr</code>(destination address), <code>ll</code>(latitude, longitude)</li>
+</ul>
+</li>
+<li><code>https://itunes.apple.com/tw/app/woooo/id978438766?mt=8</code><ul>
+<li>itunes link to open store, or music</li>
+</ul>
+</li>
+<li><code>https://www.youtube.com/watch?v=-ncIVUXZla8</code><ul>
+<li>youtube link to open in apps</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Custom Application’s Url Scheme<br> if you want to setup url scheme, here’s some steps and how to handle it<ol>
+<li>move to setting url scheme page<br> <a href="https://www.flickr.com/photos/jhihguan/18574731846" title="ios_url_scheme_1 by imdiedie, 於 Flickr" target="_blank" rel="external"><img src="https://c1.staticflickr.com/1/562/18574731846_e63919bef6_z.jpg" width="640" height="382" alt="ios_url_scheme_1"></a></li>
+<li>add identifier and URL Scheme, you can add multiple url schemes with different identifier, and the identifier doesn’t have to be the same with your app’s bundle id<br> <a href="https://www.flickr.com/photos/jhihguan/18413439760" title="ios_url_scheme_2 by imdiedie, 於 Flickr" target="_blank" rel="external"><img src="https://c1.staticflickr.com/1/457/18413439760_63f91fe593_z.jpg" width="589" height="313" alt="ios_url_scheme_2"></a></li>
+<li>handle url passed by other programs, there are 2 functions in <code>AppDelegate</code> that we can deal with the urls, remember that if we implement <code>function 1.</code>, than <code>function 2.</code> won’t active <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function 1.</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application openURL:(<span class="built_in">NSURL</span> *)url sourceApplication:(<span class="built_in">NSString</span> *)sourceApplication annotation:(<span class="keyword">id</span>)annotation &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"open %@ from %@"</span>, url, sourceApplication);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// funcion 2.</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application handleOpenURL:(<span class="built_in">NSURL</span> *)url &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"handle %@"</span>, url); <span class="comment">// won't print</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>url scheme check and architecture<ul>
+<li>We can check url can be opend<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURL</span> *openURL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"testapp://foo?bar=123&amp;foobar=567"</span>];</span><br><span class="line"><span class="keyword">if</span> ([[<span class="built_in">UIApplication</span> sharedApplication] canOpenURL:openURL]) &#123;</span><br><span class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] openURL:openURL];<span class="comment">// launch it</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// here's url schema, you can handle it and perform action</span></span><br><span class="line">[openURL query];<span class="comment">// bar=123&amp;foobar=567</span></span><br><span class="line">[openURL host];<span class="comment">// foo</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Some famous application’s url scheme<br> I found a great repository - <a href="https://github.com/intentkit/IntentKit/tree/master/IntentKit/Apps" target="_blank" rel="external">IntentKit</a> has wonderful url schemes. I believe that you should take a look at it if you’re going to implement gmail, facebook or other schemes :)<ol>
+<li>Google Maps<ul>
+<li><code>comgooglemaps://?q=Union+Square</code></li>
+</ul>
+</li>
+<li>Google Mail(Not Inbox)<ul>
+<li><code>googlegmail:///co?to=user@example.com</code>, you can also add <code>subject</code>, or <code>body</code></li>
+</ul>
+</li>
+<li>Twitter<ul>
+<li><code>twitter://post?message=Wane%20is%20Great!</code></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>Feel free to comment below if you have any question. I’ll try my best to help YOU!<br>(If you know how to send mail with Inbox by Google, please also leave me a message!! Thanks)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found <a href="https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007899-CH1-SW1">1.here</a> and <a href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html">2.here</a>.</p>
+<p>This article will summarize some url shcemes and introduce how to deal with them.</p>]]>
+    
+    </summary>
+    
+      <category term="dev" scheme="http://wane.io/tags/dev/"/>
+    
+      <category term="ios" scheme="http://wane.io/tags/ios/"/>
+    
+      <category term="url" scheme="http://wane.io/tags/url/"/>
+    
+      <category term="xcode" scheme="http://wane.io/tags/xcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[ios Multiple Async Task]]></title>
+    <link href="http://wane.io/2015/05/12/ios-multi-async/"/>
+    <id>http://wane.io/2015/05/12/ios-multi-async/</id>
+    <published>2015-05-12T04:02:47.000Z</published>
+    <updated>2015-06-08T14:35:23.000Z</updated>
+    <content type="html"><![CDATA[<p>It’s interesting that sometimes we have to wait for multi async task complete. Actually, I have no idea how I can do this well. Though I have write some codes for a while, I’m not that familiar with GCD in ios.</p>
+<p>But I found a <a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block" target="_blank" rel="external">good article(or question?)</a> on stackoverflow about this topic. I have already try with the solution provided in that article.<br>It works fine with my application.</p>
+<p>Here’s a simple flow:</p>
+<ol>
+<li>create a <code>dispatch_group_t</code></li>
+<li>Evoke different async task<ol>
+<li>if you’re not calling a block keep by others, use <code>dispatch_group_async</code></li>
+<li>If so, use <code>dispatch_group_enter</code> and after block execute use <code>dispatch_group_leave</code></li>
+</ol>
+</li>
+<li>use <code>dispatch_group_notify</code> for finish task</li>
+</ol>
+<a id="more"></a>
+<p>###<code>First, Type 2.1</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, <span class="number">0</span>), ^ &#123;</span><br><span class="line">    <span class="comment">// block1</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Block1"</span>);</span><br><span class="line">    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">5.0</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Block1 End"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dispatch_group_async(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, <span class="number">0</span>), ^ &#123;</span><br><span class="line">    <span class="comment">// block2</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Block2"</span>);</span><br><span class="line">    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">8.0</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Block2 End"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, <span class="number">0</span>), ^ &#123;</span><br><span class="line">    <span class="comment">// block3</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Block3"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_release(group);</span><br></pre></td></tr></table></figure></p>
+<p>###<code>Second, Type 2.2</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create a group</span></span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"></span><br><span class="line"><span class="comment">// pair a dispatch_group_enter for each dispatch_group_leave</span></span><br><span class="line">dispatch_group_enter(group);     <span class="comment">// pair 1 enter</span></span><br><span class="line">[<span class="keyword">self</span> computeInBackground:<span class="number">1</span> completion:^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"1 done"</span>);</span><br><span class="line">    dispatch_group_leave(group); <span class="comment">// pair 1 leave</span></span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">dispatch_group_enter(group);     <span class="comment">// pair 2 enter</span></span><br><span class="line">[<span class="keyword">self</span> computeInBackground:<span class="number">2</span> completion:^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"2 done"</span>);</span><br><span class="line">    dispatch_group_leave(group); <span class="comment">// pair 2 leave</span></span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Next, setup the code to execute after all the paired enter/leave calls.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Get a notification on a block that will be scheduled on the specified queue:</span></span><br><span class="line">dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"finally!"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>It’s interesting that sometimes we have to wait for multi async task complete. Actually, I have no idea how I can do this well. Though I have write some codes for a while, I’m not that familiar with GCD in ios.</p>
+<p>But I found a <a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">good article(or question?)</a> on stackoverflow about this topic. I have already try with the solution provided in that article.<br>It works fine with my application.</p>
+<p>Here’s a simple flow:</p>
+<ol>
+<li>create a <code>dispatch_group_t</code></li>
+<li>Evoke different async task<ol>
+<li>if you’re not calling a block keep by others, use <code>dispatch_group_async</code></li>
+<li>If so, use <code>dispatch_group_enter</code> and after block execute use <code>dispatch_group_leave</code></li>
+</ol>
+</li>
+<li>use <code>dispatch_group_notify</code> for finish task</li>
+</ol>]]>
+    
+    </summary>
+    
+      <category term="async" scheme="http://wane.io/tags/async/"/>
+    
+      <category term="dev" scheme="http://wane.io/tags/dev/"/>
+    
+      <category term="ios" scheme="http://wane.io/tags/ios/"/>
+    
+      <category term="xcode" scheme="http://wane.io/tags/xcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[ios app Woooo]]></title>
+    <link href="http://wane.io/2015/04/08/ios-woooo/"/>
+    <id>http://wane.io/2015/04/08/ios-woooo/</id>
+    <published>2015-04-08T10:01:25.000Z</published>
+    <updated>2015-06-08T14:35:10.000Z</updated>
+    <content type="html"><![CDATA[<p><a href="https://itunes.apple.com/tw/app/woooo/id978438766?l=zh&amp;mt=8" target="_blank" rel="external">Woooo</a><br>一個莫名其妙的ios app，經由一個奇妙的機緣所做出來的。這好像是第一次真的有app上架在帳號上面，雖然鳥鳥的，不過等審核的感覺還是滿緊張的，哈哈。這是一個非常簡單的app，就是讓你表達崩潰的情緒，或是看看旁邊的崩潰的人~你崩潰了嗎，一起來分享崩潰吧！</p>
+<p>在這個app上我首次使用了<a href="http://www.objc.io/issue-13/mvvm.html" target="_blank" rel="external">MVVM</a>的程式架構，而非傳統的MVC的方式。利用一個ViewModel來儲存ViewController需使用到的Array, 資料等等的東西，並利用Key Value Observer觀察該值是否有變化並做對應的事情。</p>
+<a id="more"></a>
+<p>經過了survey，好像普遍都是用github的<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external">ReactiveCocoa</a>，不過我不是用這一套，因爲初次見到他的時候被那驚爲天人的奇妙寫法震懾了，所以就放棄了，後來選擇了facebook提供的<a href="https://github.com/facebook/KVOController" target="_blank" rel="external">KVOController</a>，專職於做KVO這件事的一個framework，因爲ReactiveCocoa除了observe還有很多強大的功能。</p>
+<p>我也不知道是不是我使用錯誤，一開始的時候我觀察的viewModel變數已經給新的值了，但卻沒有觸發該做的事情，後來發現他應該是觀察property的setter有沒有被觸發，所以在viewModel內必須要使用self.xxx的方式，不能用_xxx來設定資料</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.isData</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
+<p>另外稍微介紹一下我的使用方式</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[_KVOController observe:_viewModel keyPath:<span class="string">@"text"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> block:^(<span class="keyword">id</span> observer, <span class="keyword">id</span> object, <span class="built_in">NSDictionary</span> *change) &#123;</span><br><span class="line">	<span class="comment">// observer 是觀察的人</span></span><br><span class="line">	<span class="comment">// object 是被觀察的對象(即呼叫時傳入給observe的物件)</span></span><br><span class="line">	<span class="comment">// change 是記錄變動後的值，因此取得變動後的值可以使用</span></span><br><span class="line">	change[<span class="built_in">NSKeyValueChangeNewKey</span>];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 另外若 傳入的options是 NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld</span></span><br><span class="line">	<span class="comment">// 表示會同時回傳變動後及變動前的值，可以使用下面的key分別取得需要的參數，這個在移除mapView的annotations時我有使用到</span></span><br><span class="line">	change[<span class="built_in">NSKeyValueChangeOldKey</span>];</span><br><span class="line">	change[<span class="built_in">NSKeyValueChangeNewKey</span>]</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>自己真的build了一個東西之後才會在意很多小細節，希望流程順暢一點，功能有趣一點，介面美觀一點，雖然UI還是醜醜的，但我覺得還算不錯了…(吧</p>
+<p>有機會的話請下載玩玩看囉！<a href="https://itunes.apple.com/tw/app/woooo/id978438766?l=zh&amp;mt=8" target="_blank" rel="external">Woooo</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><a href="https://itunes.apple.com/tw/app/woooo/id978438766?l=zh&amp;mt=8">Woooo</a><br>一個莫名其妙的ios app，經由一個奇妙的機緣所做出來的。這好像是第一次真的有app上架在帳號上面，雖然鳥鳥的，不過等審核的感覺還是滿緊張的，哈哈。這是一個非常簡單的app，就是讓你表達崩潰的情緒，或是看看旁邊的崩潰的人~你崩潰了嗎，一起來分享崩潰吧！</p>
+<p>在這個app上我首次使用了<a href="http://www.objc.io/issue-13/mvvm.html">MVVM</a>的程式架構，而非傳統的MVC的方式。利用一個ViewModel來儲存ViewController需使用到的Array, 資料等等的東西，並利用Key Value Observer觀察該值是否有變化並做對應的事情。</p>]]>
+    
+    </summary>
+    
+      <category term="app" scheme="http://wane.io/tags/app/"/>
+    
+      <category term="dev" scheme="http://wane.io/tags/dev/"/>
+    
+      <category term="ios" scheme="http://wane.io/tags/ios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://wane.io/2015/04/01/hello/"/>
+    <id>http://wane.io/2015/04/01/hello/</id>
+    <published>2015-04-01T10:01:25.000Z</published>
+    <updated>2015-05-25T07:08:52.000Z</updated>
+    <content type="html"><![CDATA[<p>這是我的Blog :)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>這是我的Blog :)</p>
+]]>
+    </summary>
+    
+  </entry>
+  
+</feed>
