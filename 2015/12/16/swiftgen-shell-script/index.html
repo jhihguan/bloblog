@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="dev,ios,url,xcode," />
+  <meta name="keywords" content="Swift,dev,ios," />
 
 
 
@@ -53,21 +53,24 @@
 
 
 
-<meta name="description" content="This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found 1.here and 2.here.
-This article will summarize">
+<meta name="description" content="How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using Swiftgen
+Swiftgen
+Swift">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ios Url Scheme">
-<meta property="og:url" content="http://wane.io/2015/06/01/ios-url-scheme/index.html">
+<meta property="og:title" content="Swiftgen auto script">
+<meta property="og:url" content="http://wane.io/2015/12/16/swiftgen-shell-script/index.html">
 <meta property="og:site_name" content="Wane's IO">
-<meta property="og:description" content="This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found 1.here and 2.here.
-This article will summarize">
-<meta property="og:image" content="https://c1.staticflickr.com/1/562/18574731846_e63919bef6_z.jpg">
-<meta property="og:image" content="https://c1.staticflickr.com/1/457/18413439760_63f91fe593_z.jpg">
-<meta property="og:updated_time" content="2015-06-08T16:28:48.000Z">
+<meta property="og:description" content="How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using Swiftgen
+Swiftgen
+Swift">
+<meta property="og:image" content="http://wane.io/2015/12/16/swiftgen-shell-script/runscript_phase.png">
+<meta property="og:image" content="http://wane.io/2015/12/16/swiftgen-shell-script/swiftgen_script.png">
+<meta property="og:updated_time" content="2015-12-16T15:58:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ios Url Scheme">
-<meta name="twitter:description" content="This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found 1.here and 2.here.
-This article will summarize">
+<meta name="twitter:title" content="Swiftgen auto script">
+<meta name="twitter:description" content="How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using Swiftgen
+Swiftgen
+Swift">
 
 
 
@@ -79,7 +82,7 @@ This article will summarize">
   };
 </script>
 
-  <title> ios Url Scheme | Wane's IO </title>
+  <title> Swiftgen auto script | Wane's IO </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -218,7 +221,7 @@ This article will summarize">
             
             
               
-                ios Url Scheme
+                Swiftgen auto script
               
             
           </h1>
@@ -227,8 +230,8 @@ This article will summarize">
         <div class="post-meta">
           <span class="post-time">
             Posted on
-            <time itemprop="dateCreated" datetime="2015-06-01T12:27:39+08:00" content="2015-06-01">
-              2015-06-01
+            <time itemprop="dateCreated" datetime="2015-12-16T00:33:17+08:00" content="2015-12-16">
+              2015-12-16
             </time>
           </span>
 
@@ -238,8 +241,8 @@ This article will summarize">
             
               <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/01/ios-url-scheme/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/01/ios-url-scheme/" itemprop="commentsCount"></span>
+              <a href="/2015/12/16/swiftgen-shell-script/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/16/swiftgen-shell-script/" itemprop="commentsCount"></span>
               </a>
             </span>
             
@@ -258,65 +261,32 @@ This article will summarize">
       
 
       
-        <span itemprop="articleBody"><p>This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found <a href="https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007899-CH1-SW1" target="_blank" rel="external">1.here</a> and <a href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html" target="_blank" rel="external">2.here</a>.</p>
-<p>This article will summarize some url shcemes and introduce how to deal with them.</p>
-<a id="more"></a>
-<p>First, let’s meet some basic url schemes.</p>
+        <span itemprop="articleBody"><p>How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using <code>Swiftgen</code></p>
+<h2 id="Swiftgen"><a href="#Swiftgen" class="headerlink" title="Swiftgen"></a><a href="https://github.com/AliSoftware/SwiftGen" target="_blank" rel="external">Swiftgen</a></h2><blockquote>
+<p>Swiftgen is a suite of tools written in Swift 2 to auto-generate Swift 2 code for various assets of your project.</p>
+</blockquote>
+<p>It supports <code>images</code>, <code>strings</code>, <code>storyboards</code>, <code>colors</code> four types. You just have to <code>swiftgen [type] [DIR, FILE]</code> and it will print the result out.</p>
+<p>for example, I have 2 imageset in Assets.xcassets so</p>
 <ol>
-<li>Apple’s Url Scheme<br> here’s some example from <code>documen 1</code><ol>
-<li><code>mailto:someone@example.com</code><ul>
-<li>send email to someone@example.com, you can also add ‘cc’, ‘subject’, and ‘body’, for example mailto:foo@example.com?cc=bar@example.com&amp;subject=Greetings%20from%20Cupertino!&amp;body=Wish%20you%20were%20here!</li>
-</ul>
-</li>
-<li><code>tel:1-408-555-5555</code>, <code>facetime://user@example.com</code><ul>
-<li>call number, or facetime someone</li>
-</ul>
-</li>
-<li><code>sms:1-408-555-1212</code><ul>
-<li>send message to number</li>
-</ul>
-</li>
-<li><code>http://maps.apple.com/?q=Union+Square</code><ul>
-<li>open apple maps with query terms, there have other keys can be used like <code>saddr</code>(source address), <code>daddr</code>(destination address), <code>ll</code>(latitude, longitude)</li>
-</ul>
-</li>
-<li><code>https://itunes.apple.com/tw/app/woooo/id978438766?mt=8</code><ul>
-<li>itunes link to open store, or music</li>
-</ul>
-</li>
-<li><code>https://www.youtube.com/watch?v=-ncIVUXZla8</code><ul>
-<li>youtube link to open in apps</li>
-</ul>
-</li>
+<li>switch to project folder(or parent folder)</li>
+<li>run <code>swiftgen images Assets.xcassets</code></li>
+<li>copy the result to <code>.swift</code> file</li>
 </ol>
+<p>But I think people(or only me?) are lazy, do not want to copy and paste again, again and again whenever new imageset or strings added. After searching from the issue page, I found a solution to run it automatically.<br><a id="more"></a></p>
+<ol>
+<li><p>add a <code>New Run Script Phase</code></p>
+<img src="/2015/12/16/swiftgen-shell-script/runscript_phase.png" alt="add new run script phase" title="add new run script phase">
 </li>
-<li>Custom Application’s Url Scheme<br> if you want to setup url scheme, here’s some steps and how to handle it<ol>
-<li>move to setting url scheme page<br> <a href="https://www.flickr.com/photos/jhihguan/18574731846" title="ios_url_scheme_1 by imdiedie, 於 Flickr" target="_blank" rel="external"><img src="https://c1.staticflickr.com/1/562/18574731846_e63919bef6_z.jpg" width="640" height="382" alt="ios_url_scheme_1"></a></li>
-<li>add identifier and URL Scheme, you can add multiple url schemes with different identifier, and the identifier doesn’t have to be the same with your app’s bundle id<br> <a href="https://www.flickr.com/photos/jhihguan/18413439760" title="ios_url_scheme_2 by imdiedie, 於 Flickr" target="_blank" rel="external"><img src="https://c1.staticflickr.com/1/457/18413439760_63f91fe593_z.jpg" width="589" height="313" alt="ios_url_scheme_2"></a></li>
-<li>handle url passed by other programs, there are 2 functions in <code>AppDelegate</code> that we can deal with the urls, remember that if we implement <code>function 1.</code>, than <code>function 2.</code> won’t active <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function 1.</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application openURL:(<span class="built_in">NSURL</span> *)url sourceApplication:(<span class="built_in">NSString</span> *)sourceApplication annotation:(<span class="keyword">id</span>)annotation &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"open %@ from %@"</span>, url, sourceApplication);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// funcion 2.</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application handleOpenURL:(<span class="built_in">NSURL</span> *)url &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"handle %@"</span>, url); <span class="comment">// won't print</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>url scheme check and architecture<ul>
-<li>We can check url can be opend<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURL</span> *openURL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"testapp://foo?bar=123&amp;foobar=567"</span>];</span><br><span class="line"><span class="keyword">if</span> ([[<span class="built_in">UIApplication</span> sharedApplication] canOpenURL:openURL]) &#123;</span><br><span class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] openURL:openURL];<span class="comment">// launch it</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// here's url schema, you can handle it and perform action</span></span><br><span class="line">[openURL query];<span class="comment">// bar=123&amp;foobar=567</span></span><br><span class="line">[openURL host];<span class="comment">// foo</span></span><br></pre></td></tr></table></figure></li>
-</ul>
+<li><p>add shell into script block</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">which</span> swiftgen &gt;/dev/null; <span class="keyword">then</span></span><br><span class="line">    swiftgen strings <span class="variable">$&#123;SCRIPT_INPUT_FILE_0&#125;</span> --output <span class="variable">$&#123;SCRIPT_OUTPUT_FILE_0&#125;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"SwiftGen does not exist, download from https://github.com/AliSoftware/SwiftGen"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
 </li>
+<li><p>add <code>Input Files</code> and <code>Output Files</code><br>inside the script has <code>${SCRIPT_INPUT_FILE_0}</code> which represent the first line of <code>Input Files</code>‘s value, and <code>${SCRIPT_OUTPUT_FILE_0}</code> is for the first line of <code>Output Files</code><br>Obviously, <code>${SCRIPT_INPUT_FILE_1}</code> stands for the second line and <code>${SCRIPT_INPUT_FILE_2}</code> for the third … and so on.</p>
+<img src="/2015/12/16/swiftgen-shell-script/swiftgen_script.png" alt="automatically generate file" title="automatically generate file">
+</li>
+<li><h3 id="Remember_to_add_output_swift_files_to_your_project"><a href="#Remember_to_add_output_swift_files_to_your_project" class="headerlink" title="Remember to add output swift files to your project"></a>Remember to add output swift files to your project</h3></li>
 </ol>
-</li>
-<li>Some famous application’s url scheme<br> I found a great repository - <a href="https://github.com/intentkit/IntentKit/tree/master/IntentKit/Apps" target="_blank" rel="external">IntentKit</a> has wonderful url schemes. I believe that you should take a look at it if you’re going to implement gmail, facebook or other schemes :)<ol>
-<li>Google Maps<ul>
-<li><code>comgooglemaps://?q=Union+Square</code></li>
-</ul>
-</li>
-<li>Google Mail(Not Inbox)<ul>
-<li><code>googlegmail:///co?to=user@example.com</code>, you can also add <code>subject</code>, or <code>body</code></li>
-</ul>
-</li>
-<li>Twitter<ul>
-<li><code>twitter://post?message=Wane%20is%20Great!</code></li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<p>Feel free to comment below if you have any question. I’ll try my best to help YOU!<br>(If you know how to send mail with Inbox by Google, please also leave me a message!! Thanks)</p>
+<p>After doing this, your swift file will be updated every time you build the application and enjoy the enum usage!</p>
+<p><code>Happy Coding!</code></p>
 </span>
       
     </div>
@@ -325,13 +295,11 @@ This article will summarize">
       
         <div class="post-tags">
           
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
             <a href="/tags/dev/" rel="tag">#dev</a>
           
             <a href="/tags/ios/" rel="tag">#ios</a>
-          
-            <a href="/tags/url/" rel="tag">#url</a>
-          
-            <a href="/tags/xcode/" rel="tag">#xcode</a>
           
         </div>
       
@@ -340,17 +308,13 @@ This article will summarize">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/12/ios-multi-async/" rel="next" title="ios Multiple Async Task">
-                <i class="fa fa-chevron-left"></i> ios Multiple Async Task
+              <a href="/2015/06/09/ios-flurry-native-ads/" rel="next" title="ios Flurry Native Ads">
+                <i class="fa fa-chevron-left"></i> ios Flurry Native Ads
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/06/09/ios-flurry-native-ads/" rel="prev" title="ios Flurry Native Ads">
-                ios Flurry Native Ads <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -504,7 +468,7 @@ This article will summarize">
               
             
             
-              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Swiftgen"><span class="nav-number">1.</span> <span class="nav-text">Swiftgen</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Remember_to_add_output_swift_files_to_your_project"><span class="nav-number">1.1.</span> <span class="nav-text">Remember to add output swift files to your project</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -564,9 +528,9 @@ This article will summarize">
 
     <script type="text/javascript">
       var disqus_shortname = 'waneblog';
-      var disqus_identifier = '2015/06/01/ios-url-scheme/';
-      var disqus_title = 'ios Url Scheme';
-      var disqus_url = 'http://wane.io/2015/06/01/ios-url-scheme/';
+      var disqus_identifier = '2015/12/16/swiftgen-shell-script/';
+      var disqus_title = 'Swiftgen auto script';
+      var disqus_url = 'http://wane.io/2015/12/16/swiftgen-shell-script/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');

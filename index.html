@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Swift, iOS" />
 
 
 
@@ -198,6 +198,15 @@
 
     
     
+      
+      
+        
+        
+        
+      
+
+      
+    
 
     
       
@@ -221,8 +230,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/06/09/ios-flurry-native-ads/" itemprop="url">
-                  ios Flurry Native Ads
+                <a class="post-title-link" href="/2015/12/16/swiftgen-shell-script/" itemprop="url">
+                  Swiftgen auto script
                 </a>
               
             
@@ -232,8 +241,8 @@
         <div class="post-meta">
           <span class="post-time">
             Posted on
-            <time itemprop="dateCreated" datetime="2015-06-09T00:47:41+08:00" content="2015-06-09">
-              2015-06-09
+            <time itemprop="dateCreated" datetime="2015-12-16T00:33:17+08:00" content="2015-12-16">
+              2015-12-16
             </time>
           </span>
 
@@ -243,8 +252,8 @@
             
               <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/09/ios-flurry-native-ads/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/09/ios-flurry-native-ads/" itemprop="commentsCount"></span>
+              <a href="/2015/12/16/swiftgen-shell-script/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/16/swiftgen-shell-script/" itemprop="commentsCount"></span>
               </a>
             </span>
             
@@ -264,378 +273,23 @@
 
       
         
-          <p>Have you ever try <a href="https://developer.yahoo.com/flurry/">FlurryAds</a>? According to an <a href="http://www.statista.com/statistics/242547/digital-display-ad-revenues-of-major-ad-selling-companies-in-the-us/">article</a>, it is top 3 ads-selling company, another <a href="http://www.chinainternetwatch.com/11500/china-top-ad-sellers-exceed-10-market-share-worldwide/">article</a> said that it is top 10 ad-sselling company. Actually, it does not that important which place is it, we all know Flurry(Yahoo) is a good company. For me, well, Flurry is a really amazing analytic tool, but normal at providing great ads.</p>
-<p>Recently, I have to integrate <a href="https://developer.yahoo.com/flurry/docs/publisher/code/ios/">FlurryAdNative</a> with one app. According to the example of the flurry document, I init and fetch FlurryAds inside function, wait for the response, and than my app crash without any informations. Here’s sample code for requesting FlurryAds with version 6.5.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)fetchFlurryAd &#123;</span><br><span class="line">    FlurryAdNative *flurryAd = [[FlurryAdNative alloc] initWithSpace:<span class="string">@"iOSNativeAd"</span>];</span><br><span class="line">    flurryAd<span class="variable">.adDelegate</span> = <span class="keyword">self</span>;</span><br><span class="line">    flurryAd<span class="variable">.viewControllerForPresentation</span> = <span class="keyword">self</span>;</span><br><span class="line">    <span class="comment">//Request the ad from Flurry.</span></span><br><span class="line">    [flurryAd fetchAd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/09/ios-flurry-native-ads/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/01/ios-url-scheme/" itemprop="url">
-                  ios Url Scheme
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            Posted on
-            <time itemprop="dateCreated" datetime="2015-06-01T12:27:39+08:00" content="2015-06-01">
-              2015-06-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/06/01/ios-url-scheme/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/01/ios-url-scheme/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>This is an overview of Apple Url Scheme. With url scheme, you can call basic app, or pass parameters to other applications. Apple’s document can be found <a href="https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007899-CH1-SW1">1.here</a> and <a href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html">2.here</a>.</p>
-<p>This article will summarize some url shcemes and introduce how to deal with them.</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/01/ios-url-scheme/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/05/12/ios-multi-async/" itemprop="url">
-                  ios Multiple Async Task
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            Posted on
-            <time itemprop="dateCreated" datetime="2015-05-12T12:02:47+08:00" content="2015-05-12">
-              2015-05-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/05/12/ios-multi-async/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/05/12/ios-multi-async/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>It’s interesting that sometimes we have to wait for multi async task complete. Actually, I have no idea how I can do this well. Though I have write some codes for a while, I’m not that familiar with GCD in ios.</p>
-<p>But I found a <a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">good article(or question?)</a> on stackoverflow about this topic. I have already try with the solution provided in that article.<br>It works fine with my application.</p>
-<p>Here’s a simple flow:</p>
+          <p>How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using <code>Swiftgen</code></p>
+<h2 id="Swiftgen"><a href="#Swiftgen" class="headerlink" title="Swiftgen"></a><a href="https://github.com/AliSoftware/SwiftGen">Swiftgen</a></h2><blockquote>
+<p>Swiftgen is a suite of tools written in Swift 2 to auto-generate Swift 2 code for various assets of your project.</p>
+</blockquote>
+<p>It supports <code>images</code>, <code>strings</code>, <code>storyboards</code>, <code>colors</code> four types. You just have to <code>swiftgen [type] [DIR, FILE]</code> and it will print the result out.</p>
+<p>for example, I have 2 imageset in Assets.xcassets so</p>
 <ol>
-<li>create a <code>dispatch_group_t</code></li>
-<li>Evoke different async task<ol>
-<li>if you’re not calling a block keep by others, use <code>dispatch_group_async</code></li>
-<li>If so, use <code>dispatch_group_enter</code> and after block execute use <code>dispatch_group_leave</code></li>
+<li>switch to project folder(or parent folder)</li>
+<li>run <code>swiftgen images Assets.xcassets</code></li>
+<li>copy the result to <code>.swift</code> file</li>
 </ol>
-</li>
-<li>use <code>dispatch_group_notify</code> for finish task</li>
-</ol>
+<p>But I think people(or only me?) are lazy, do not want to copy and paste again, again and again whenever new imageset or strings added. After searching from the issue page, I found a solution to run it automatically.<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/05/12/ios-multi-async/#more" rel="contents">
+            <a class="btn" href="/2015/12/16/swiftgen-shell-script/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/08/ios-woooo/" itemprop="url">
-                  ios app Woooo
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            Posted on
-            <time itemprop="dateCreated" datetime="2015-04-08T18:01:25+08:00" content="2015-04-08">
-              2015-04-08
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/04/08/ios-woooo/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/08/ios-woooo/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p><a href="https://itunes.apple.com/tw/app/woooo/id978438766?l=zh&amp;mt=8">Woooo</a><br>一個莫名其妙的ios app，經由一個奇妙的機緣所做出來的。這好像是第一次真的有app上架在帳號上面，雖然鳥鳥的，不過等審核的感覺還是滿緊張的，哈哈。這是一個非常簡單的app，就是讓你表達崩潰的情緒，或是看看旁邊的崩潰的人~你崩潰了嗎，一起來分享崩潰吧！</p>
-<p>在這個app上我首次使用了<a href="http://www.objc.io/issue-13/mvvm.html">MVVM</a>的程式架構，而非傳統的MVC的方式。利用一個ViewModel來儲存ViewController需使用到的Array, 資料等等的東西，並利用Key Value Observer觀察該值是否有變化並做對應的事情。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/08/ios-woooo/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/01/hello/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            Posted on
-            <time itemprop="dateCreated" datetime="2015-04-01T18:01:25+08:00" content="2015-04-01">
-              2015-04-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/04/01/hello/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/01/hello/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>這是我的Blog :)</p>
-
-            
-          </span>
         
       
     </div>
@@ -696,7 +350,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -710,7 +364,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">tags</span>
               </a>
           </div>

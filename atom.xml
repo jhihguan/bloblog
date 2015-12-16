@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://wane.io/"/>
-  <updated>2015-06-08T16:47:22.000Z</updated>
+  <updated>2015-12-16T15:58:59.000Z</updated>
   <id>http://wane.io/</id>
   
   <author>
@@ -13,6 +13,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Swiftgen auto script]]></title>
+    <link href="http://wane.io/2015/12/16/swiftgen-shell-script/"/>
+    <id>http://wane.io/2015/12/16/swiftgen-shell-script/</id>
+    <published>2015-12-15T16:33:17.000Z</published>
+    <updated>2015-12-16T15:58:59.000Z</updated>
+    <content type="html"><![CDATA[<p>How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using <code>Swiftgen</code></p>
+<h2 id="Swiftgen"><a href="#Swiftgen" class="headerlink" title="Swiftgen"></a><a href="https://github.com/AliSoftware/SwiftGen" target="_blank" rel="external">Swiftgen</a></h2><blockquote>
+<p>Swiftgen is a suite of tools written in Swift 2 to auto-generate Swift 2 code for various assets of your project.</p>
+</blockquote>
+<p>It supports <code>images</code>, <code>strings</code>, <code>storyboards</code>, <code>colors</code> four types. You just have to <code>swiftgen [type] [DIR, FILE]</code> and it will print the result out.</p>
+<p>for example, I have 2 imageset in Assets.xcassets so</p>
+<ol>
+<li>switch to project folder(or parent folder)</li>
+<li>run <code>swiftgen images Assets.xcassets</code></li>
+<li>copy the result to <code>.swift</code> file</li>
+</ol>
+<p>But I think people(or only me?) are lazy, do not want to copy and paste again, again and again whenever new imageset or strings added. After searching from the issue page, I found a solution to run it automatically.<br><a id="more"></a></p>
+<ol>
+<li><p>add a <code>New Run Script Phase</code></p>
+<img src="/2015/12/16/swiftgen-shell-script/runscript_phase.png" alt="add new run script phase" title="add new run script phase">
+</li>
+<li><p>add shell into script block</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">which</span> swiftgen &gt;/dev/null; <span class="keyword">then</span></span><br><span class="line">    swiftgen strings <span class="variable">$&#123;SCRIPT_INPUT_FILE_0&#125;</span> --output <span class="variable">$&#123;SCRIPT_OUTPUT_FILE_0&#125;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"SwiftGen does not exist, download from https://github.com/AliSoftware/SwiftGen"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>add <code>Input Files</code> and <code>Output Files</code><br>inside the script has <code>${SCRIPT_INPUT_FILE_0}</code> which represent the first line of <code>Input Files</code>‘s value, and <code>${SCRIPT_OUTPUT_FILE_0}</code> is for the first line of <code>Output Files</code><br>Obviously, <code>${SCRIPT_INPUT_FILE_1}</code> stands for the second line and <code>${SCRIPT_INPUT_FILE_2}</code> for the third … and so on.</p>
+<img src="/2015/12/16/swiftgen-shell-script/swiftgen_script.png" alt="automatically generate file" title="automatically generate file">
+</li>
+<li><h3 id="Remember_to_add_output_swift_files_to_your_project"><a href="#Remember_to_add_output_swift_files_to_your_project" class="headerlink" title="Remember to add output swift files to your project"></a>Remember to add output swift files to your project</h3></li>
+</ol>
+<p>After doing this, your swift file will be updated every time you build the application and enjoy the enum usage!</p>
+<p><code>Happy Coding!</code></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>How do you managed your ios Localizable.strings? How do you init UIImage from Assets with correct strings? There has a convenient way to help you do those things easier - using <code>Swiftgen</code></p>
+<h2 id="Swiftgen"><a href="#Swiftgen" class="headerlink" title="Swiftgen"></a><a href="https://github.com/AliSoftware/SwiftGen">Swiftgen</a></h2><blockquote>
+<p>Swiftgen is a suite of tools written in Swift 2 to auto-generate Swift 2 code for various assets of your project.</p>
+</blockquote>
+<p>It supports <code>images</code>, <code>strings</code>, <code>storyboards</code>, <code>colors</code> four types. You just have to <code>swiftgen [type] [DIR, FILE]</code> and it will print the result out.</p>
+<p>for example, I have 2 imageset in Assets.xcassets so</p>
+<ol>
+<li>switch to project folder(or parent folder)</li>
+<li>run <code>swiftgen images Assets.xcassets</code></li>
+<li>copy the result to <code>.swift</code> file</li>
+</ol>
+<p>But I think people(or only me?) are lazy, do not want to copy and paste again, again and again whenever new imageset or strings added. After searching from the issue page, I found a solution to run it automatically.<br>]]>
+    
+    </summary>
+    
+      <category term="Swift" scheme="http://wane.io/tags/Swift/"/>
+    
+      <category term="dev" scheme="http://wane.io/tags/dev/"/>
+    
+      <category term="ios" scheme="http://wane.io/tags/ios/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[ios Flurry Native Ads]]></title>
